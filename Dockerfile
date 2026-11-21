@@ -1,0 +1,25 @@
+
+# Stage 1: Build Angular application
+FROM node:24-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm ci
+
+COPY . .
+
+RUN npm run build
+
+# Stage 2: Serve with Nginx
+FROM nginxinc/nginx-unprivileged:alpine AS production
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=builder /app/dist/ai-chat-assistant/browser \
+  /usr/share/nginx/html
+
+EXPOSE 8080
+
+CMD ["nginx", "-g", "daemon off;"]
