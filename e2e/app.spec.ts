@@ -1,4 +1,3 @@
-
 import { test, expect } from '@playwright/test';
 
 test.describe('AI Chat Assistant', () => {
@@ -21,9 +20,7 @@ test.describe('AI Chat Assistant', () => {
     ).toBeVisible();
   });
 
-  test('should match the application visual snapshot', async ({
-    page,
-  }) => {
+  test('should match the application visual snapshot', async ({ page }) => {
     await expect(page).toHaveScreenshot('application.png', {
       fullPage: true,
     });
