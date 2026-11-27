@@ -235,40 +235,40 @@
 
 ## Decisions and constraints
 
-| Decision | Choice |
-|---|---|
-| Custom backend | No |
-| Angular UI library | No Angular Material |
-| Styling | Tailwind CSS 4 |
-| AI provider | Gemini |
-| Browser-to-AI integration | Firebase AI Logic |
-| App protection | Firebase App Check |
-| Browser persistence | IndexedDB |
-| Unit test runner | Vitest |
-| Angular testing utility | TestBed |
-| Integration testing | Vitest + TestBed |
-| E2E testing | Playwright |
-| Linting | Angular ESLint |
-| Formatting | Prettier |
-| Local container workflow | Docker Compose |
-| CI/CD | GitHub Actions |
-| AWS hosting | S3 + CloudFront |
-| CI/CD identity | GitHub Actions OIDC |
+| Decision                  | Choice              |
+| ------------------------- | ------------------- |
+| Custom backend            | No                  |
+| Angular UI library        | No Angular Material |
+| Styling                   | Tailwind CSS 4      |
+| AI provider               | Gemini              |
+| Browser-to-AI integration | Firebase AI Logic   |
+| App protection            | Firebase App Check  |
+| Browser persistence       | IndexedDB           |
+| Unit test runner          | Vitest              |
+| Angular testing utility   | TestBed             |
+| Integration testing       | Vitest + TestBed    |
+| E2E testing               | Playwright          |
+| Linting                   | Angular ESLint      |
+| Formatting                | Prettier            |
+| Local container workflow  | Docker Compose      |
+| CI/CD                     | GitHub Actions      |
+| AWS hosting               | S3 + CloudFront     |
+| CI/CD identity            | GitHub Actions OIDC |
 
 ---
 
 ## Change log
 
-| Date | Update |
-|---|---|
-| 2026-11-21 | Project plan and progress tracker created. |
-| 2026-11-21 | Confirmed Tailwind CSS as the styling system; Angular Material excluded. |
+| Date       | Update                                                                             |
+| ---------- | ---------------------------------------------------------------------------------- |
+| 2026-11-21 | Project plan and progress tracker created.                                         |
+| 2026-11-21 | Confirmed Tailwind CSS as the styling system; Angular Material excluded.           |
 | 2026-11-21 | Confirmed no custom backend; Gemini integration planned through Firebase AI Logic. |
-| 2026-11-21 | Added Docker development and Nginx production-container approach. |
-| 2026-11-21 | Phase 1 confirmed complete. |
-| 2026-11-27 | Updated testing strategy to Vitest and Angular TestBed. |
-| 2026-11-27 | Added unit, integration, and E2E testing levels. |
-| 2026-11-27 | Added Angular ESLint and Prettier. |
-| 2026-11-27 | Added GitHub Actions CI workflow with push and pull request triggers. |
-| 2026-11-27 | Separated GitHub Actions CI and AWS production deployment into distinct phases. |
-| 2026-11-27 | Recorded successful GitHub Pages deployment. |
+| 2026-11-21 | Added Docker development and Nginx production-container approach.                  |
+| 2026-11-21 | Phase 1 confirmed complete.                                                        |
+| 2026-11-27 | Updated testing strategy to Vitest and Angular TestBed.                            |
+| 2026-11-27 | Added unit, integration, and E2E testing levels.                                   |
+| 2026-11-27 | Added Angular ESLint and Prettier.                                                 |
+| 2026-11-27 | Added GitHub Actions CI workflow with push and pull request triggers.              |
+| 2026-11-27 | Separated GitHub Actions CI and AWS production deployment into distinct phases.    |
+| 2026-11-27 | Recorded successful GitHub Pages deployment.                                       |
