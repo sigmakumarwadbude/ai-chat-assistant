@@ -8,25 +8,25 @@ Build a production-oriented, frontend-only AI Chat Assistant using Angular 22, T
 
 ## Technology stack
 
-| Area | Technology |
-|---|---|
-| Frontend framework | Angular 22 |
-| Language | TypeScript |
-| Styling | Tailwind CSS 4 |
-| Application state | Angular Signals |
-| Async/event composition | RxJS where useful |
-| LLM | Google Gemini |
-| Managed AI integration | Firebase AI Logic |
-| App protection | Firebase App Check |
-| Browser persistence | IndexedDB |
-| Unit testing | Angular CLI test setup / Jasmine where configured |
-| E2E testing | Playwright |
-| Containerization | Docker, Docker Compose |
-| Production web server | Nginx |
-| Source control | Git and GitHub |
-| CI/CD | GitHub Actions |
-| Hosting | Amazon S3 + CloudFront |
-| Cloud identity | AWS IAM OIDC federation |
+| Area                    | Technology                                        |
+| ----------------------- | ------------------------------------------------- |
+| Frontend framework      | Angular 22                                        |
+| Language                | TypeScript                                        |
+| Styling                 | Tailwind CSS 4                                    |
+| Application state       | Angular Signals                                   |
+| Async/event composition | RxJS where useful                                 |
+| LLM                     | Google Gemini                                     |
+| Managed AI integration  | Firebase AI Logic                                 |
+| App protection          | Firebase App Check                                |
+| Browser persistence     | IndexedDB                                         |
+| Unit testing            | Angular CLI test setup / Jasmine where configured |
+| E2E testing             | Playwright                                        |
+| Containerization        | Docker, Docker Compose                            |
+| Production web server   | Nginx                                             |
+| Source control          | Git and GitHub                                    |
+| CI/CD                   | GitHub Actions                                    |
+| Hosting                 | Amazon S3 + CloudFront                            |
+| Cloud identity          | AWS IAM OIDC federation                           |
 
 Angular Material is intentionally **not** included. Tailwind CSS is the primary styling and layout system.
 
@@ -68,6 +68,7 @@ Docker is used for local development and production-container validation. The pl
 ## Phase 1 — Repository and development foundation
 
 ### Goals
+
 - Establish the GitHub repository and local workspace.
 - Generate the Angular 22 application in the repository root.
 - Configure Tailwind CSS 4.
@@ -75,6 +76,7 @@ Docker is used for local development and production-container validation. The pl
 - Document the project plan and progress.
 
 ### Tasks
+
 1. Create a private GitHub repository named `ai-chat-assistant`.
 2. Clone it locally.
 3. Create the Angular 22 application in the repository root.
@@ -89,6 +91,7 @@ Docker is used for local development and production-container validation. The pl
 12. Commit and push the initial project.
 
 ### Acceptance criteria
+
 - `npm start` serves the Angular application.
 - Tailwind utility classes render correctly.
 - `docker compose up` starts the development application.
@@ -99,6 +102,7 @@ Docker is used for local development and production-container validation. The pl
 ## Phase 2 — Chat UI and frontend architecture
 
 ### Goals
+
 Build a responsive chat experience with mock responses before connecting Gemini.
 
 ### Suggested structure
@@ -129,6 +133,7 @@ src/app/
 ```
 
 ### Tasks
+
 1. Define `ChatMessage` and `Conversation` interfaces.
 2. Create the application shell and responsive layout.
 3. Build the conversation sidebar.
@@ -140,6 +145,7 @@ src/app/
 9. Add accessible keyboard behavior and responsive layouts.
 
 ### Acceptance criteria
+
 - Users can create a conversation and send messages.
 - Messages render in the correct order.
 - UI state updates without manual DOM manipulation.
@@ -149,9 +155,11 @@ src/app/
 ## Phase 3 — Gemini integration
 
 ### Goals
+
 Connect the browser application to Gemini using Firebase AI Logic without a custom backend.
 
 ### Tasks
+
 1. Create a Firebase project and register a web application.
 2. Enable Firebase AI Logic and select the Gemini Developer API provider.
 3. Configure Firebase App Check and its development workflow.
@@ -164,6 +172,7 @@ Connect the browser application to Gemini using Firebase AI Logic without a cust
 10. Handle cancellation, quota errors, safety blocks, and network failures.
 
 ### Security requirements
+
 - Never put a Gemini Developer API key in Angular source code or browser-delivered environment files.
 - Treat Firebase web configuration as public client configuration, not as a secret.
 - Configure App Check and enforce it for the relevant Firebase AI Logic service.
@@ -171,6 +180,7 @@ Connect the browser application to Gemini using Firebase AI Logic without a cust
 - Do not send sensitive information in prompts unless the application has an explicit, reviewed data-handling policy.
 
 ### Acceptance criteria
+
 - A user can send a prompt and receive a Gemini response.
 - Follow-up prompts retain the intended conversation context.
 - Responses render progressively when streaming is enabled.
@@ -179,6 +189,7 @@ Connect the browser application to Gemini using Firebase AI Logic without a cust
 ## Phase 4 — Conversation management and assistant experience
 
 ### Tasks
+
 1. Persist conversations in IndexedDB.
 2. Implement create, read, update, and delete operations.
 3. Restore conversations after page reload.
@@ -192,6 +203,7 @@ Connect the browser application to Gemini using Firebase AI Logic without a cust
 11. Add theme preference and responsive refinements.
 
 ### Acceptance criteria
+
 - Conversations persist in the same browser.
 - Users can reopen, rename, search, and delete conversations.
 - Generated Markdown is sanitized before HTML rendering.
@@ -202,6 +214,7 @@ Connect the browser application to Gemini using Firebase AI Logic without a cust
 ## Phase 5 — Testing, accessibility, and quality
 
 ### Tasks
+
 1. Add unit tests for state, services, and components.
 2. Mock Firebase AI Logic in unit tests; do not consume live model quota in routine tests.
 3. Add Playwright end-to-end tests for primary user journeys.
@@ -212,6 +225,7 @@ Connect the browser application to Gemini using Firebase AI Logic without a cust
 8. Verify production build output and bundle budgets.
 
 ### Core E2E scenarios
+
 - Open the application.
 - Start a new conversation.
 - Send a message and receive a response.
@@ -223,12 +237,14 @@ Connect the browser application to Gemini using Firebase AI Logic without a cust
 ## Phase 6 — GitHub Actions and AWS deployment
 
 ### Git workflow
+
 - `main`: production-ready code.
 - `develop`: integration branch.
 - `feature/*`: isolated feature branches.
 - Pull requests run validation before merge.
 
 ### CI pipeline
+
 1. Check out the repository.
 2. Set up the supported Node.js version.
 3. Run `npm ci`.
@@ -238,6 +254,7 @@ Connect the browser application to Gemini using Firebase AI Logic without a cust
 7. Run E2E tests where the workflow environment supports them.
 
 ### AWS deployment
+
 1. Create a private S3 bucket.
 2. Create a CloudFront distribution.
 3. Configure Origin Access Control so the bucket is not publicly readable.
@@ -251,6 +268,7 @@ Connect the browser application to Gemini using Firebase AI Logic without a cust
 11. Verify HTTPS, routing, caching, and production behavior.
 
 ### Acceptance criteria
+
 - Pull requests run automated validation.
 - Merges to `main` trigger production deployment.
 - GitHub Actions uses OIDC rather than long-lived AWS access keys.
@@ -260,14 +278,14 @@ Connect the browser application to Gemini using Firebase AI Logic without a cust
 
 ## Suggested delivery sequence
 
-| Phase | Main deliverable |
-|---|---|
-| 1 | GitHub repo, Angular 22, Tailwind 4, Docker |
-| 2 | Responsive chat UI with mock responses |
-| 3 | Gemini integration and streaming |
-| 4 | Conversation persistence and advanced UX |
-| 5 | Automated tests and quality gates |
-| 6 | GitHub Actions and AWS production deployment |
+| Phase | Main deliverable                             |
+| ----- | -------------------------------------------- |
+| 1     | GitHub repo, Angular 22, Tailwind 4, Docker  |
+| 2     | Responsive chat UI with mock responses       |
+| 3     | Gemini integration and streaming             |
+| 4     | Conversation persistence and advanced UX     |
+| 5     | Automated tests and quality gates            |
+| 6     | GitHub Actions and AWS production deployment |
 
 ## Development conventions
 

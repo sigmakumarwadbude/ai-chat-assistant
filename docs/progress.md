@@ -113,24 +113,24 @@
 
 ## Decisions and constraints
 
-| Decision | Choice |
-|---|---|
-| Custom backend | No |
-| Angular UI library | No Angular Material |
-| Styling | Tailwind CSS 4 |
-| AI provider | Gemini |
-| Browser-to-AI integration | Firebase AI Logic |
-| App protection | Firebase App Check |
-| Browser persistence | IndexedDB |
-| Local container workflow | Docker Compose |
-| AWS hosting | S3 + CloudFront |
-| CI/CD identity | GitHub Actions OIDC |
+| Decision                  | Choice              |
+| ------------------------- | ------------------- |
+| Custom backend            | No                  |
+| Angular UI library        | No Angular Material |
+| Styling                   | Tailwind CSS 4      |
+| AI provider               | Gemini              |
+| Browser-to-AI integration | Firebase AI Logic   |
+| App protection            | Firebase App Check  |
+| Browser persistence       | IndexedDB           |
+| Local container workflow  | Docker Compose      |
+| AWS hosting               | S3 + CloudFront     |
+| CI/CD identity            | GitHub Actions OIDC |
 
 ## Change log
 
-| Date | Update |
-|---|---|
-| 2026-11-21 | Project plan and progress tracker created. |
-| 2026-11-21 | Confirmed Tailwind CSS as the styling system; Angular Material excluded. |
+| Date       | Update                                                                             |
+| ---------- | ---------------------------------------------------------------------------------- |
+| 2026-11-21 | Project plan and progress tracker created.                                         |
+| 2026-11-21 | Confirmed Tailwind CSS as the styling system; Angular Material excluded.           |
 | 2026-11-21 | Confirmed no custom backend; Gemini integration planned through Firebase AI Logic. |
-| 2026-11-21 | Added Docker development and Nginx production-container approach. |
+| 2026-11-21 | Added Docker development and Nginx production-container approach.                  |
