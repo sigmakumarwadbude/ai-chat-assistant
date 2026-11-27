@@ -19,8 +19,12 @@ Build a production-oriented, frontend-only AI Chat Assistant using Angular 22, T
 | Managed AI integration | Firebase AI Logic |
 | App protection | Firebase App Check |
 | Browser persistence | IndexedDB |
-| Unit testing | Angular CLI test setup / Jasmine where configured |
+| Unit testing | Vitest |
+| Angular testing utilities | Angular TestBed |
+| Integration testing | Vitest + Angular TestBed |
 | E2E testing | Playwright |
+| Code quality | ESLint / Angular ESLint |
+| Code formatting | Prettier |
 | Containerization | Docker, Docker Compose |
 | Production web server | Nginx |
 | Source control | Git and GitHub |
@@ -51,8 +55,20 @@ GitHub repository
   |
   v
 GitHub Actions
-  |-- install, lint, test, build
-  |-- authenticate to AWS using OIDC
+  |-- npm ci
+  |-- Prettier check
+  |-- ESLint
+  |-- Unit and integration tests
+  |-- Production build
+  |
+  v
+Pull request validation
+
+Production deployment (planned)
+  |
+  v
+GitHub Actions + AWS OIDC
+  |
   v
 Amazon S3 (private static origin)
   |
@@ -76,29 +92,31 @@ Docker is used for local development and production-container validation. The pl
 
 ### Tasks
 1. Create a private GitHub repository named `ai-chat-assistant`.
-2. Clone it locally.
+2. Clone the repository locally.
 3. Create the Angular 22 application in the repository root.
-4. Install and configure Tailwind CSS 4 using the Angular integration.
+4. Install and configure Tailwind CSS 4.
 5. Verify the development server and Tailwind styling.
 6. Add a multi-stage Dockerfile.
 7. Add an Nginx configuration with Angular SPA fallback.
-8. Add Docker Compose for local development.
+8. Add Docker Compose for development.
 9. Add `.dockerignore`.
 10. Build and run the production Docker image.
 11. Add `learning_plan.md` and `progress.md`.
-12. Commit and push the initial project.
+12. Commit and push initial changes.
+13. Create and push the `develop` branch.
 
 ### Acceptance criteria
 - `npm start` serves the Angular application.
 - Tailwind utility classes render correctly.
 - `docker compose up` starts the development application.
 - `docker build` completes successfully.
-- The production container serves the Angular app through Nginx.
+- The production container serves the Angular application through Nginx.
 - No Angular Material dependency is installed.
 
 ## Phase 2 — Chat UI and frontend architecture
 
 ### Goals
+
 Build a responsive chat experience with mock responses before connecting Gemini.
 
 ### Suggested structure
@@ -149,6 +167,7 @@ src/app/
 ## Phase 3 — Gemini integration
 
 ### Goals
+
 Connect the browser application to Gemini using Firebase AI Logic without a custom backend.
 
 ### Tasks
@@ -176,7 +195,7 @@ Connect the browser application to Gemini using Firebase AI Logic without a cust
 - Responses render progressively when streaming is enabled.
 - Errors are shown clearly and do not leave the UI stuck in a loading state.
 
-## Phase 4 — Conversation management and assistant experience
+## Phase 4 — Conversation management and advanced UX
 
 ### Tasks
 1. Persist conversations in IndexedDB.
@@ -201,15 +220,54 @@ Connect the browser application to Gemini using Firebase AI Logic without a cust
 
 ## Phase 5 — Testing, accessibility, and quality
 
-### Tasks
-1. Add unit tests for state, services, and components.
-2. Mock Firebase AI Logic in unit tests; do not consume live model quota in routine tests.
-3. Add Playwright end-to-end tests for primary user journeys.
-4. Test streaming UI behavior and failure states.
-5. Add linting and formatting checks.
-6. Check keyboard navigation, focus management, contrast, and semantic markup.
-7. Review dependency vulnerabilities.
-8. Verify production build output and bundle budgets.
+### 5.1 Unit testing
+
+**Tools:** Vitest + Angular TestBed
+
+Tasks:
+1. Test individual Angular components.
+2. Test services and utility functions.
+3. Test Signals-based state management.
+4. Test input validation and message transformations.
+5. Mock external dependencies.
+
+### 5.2 Integration testing
+
+**Tools:** Vitest + Angular TestBed
+
+Tasks:
+1. Test communication between chat components.
+2. Test component and service integration.
+3. Test message submission and response rendering.
+4. Test Signals-based state updates across components.
+5. Test loading, error, and disabled states.
+6. Test streaming response handling.
+7. Test conversation persistence integration.
+8. Mock Firebase AI Logic and browser storage where appropriate.
+
+### 5.3 End-to-end testing
+
+**Tool:** Playwright
+
+Tasks:
+1. Configure Playwright.
+2. Test complete user journeys in a browser.
+3. Test conversation creation and messaging.
+4. Test follow-up questions.
+5. Test conversation restoration after reload.
+6. Test search, rename, and deletion.
+7. Test network failures and retry behavior.
+
+### 5.4 Code quality and accessibility
+
+Tasks:
+1. Configure ESLint with Angular ESLint.
+2. Configure Prettier.
+3. Add formatting validation.
+4. Review keyboard navigation and focus management.
+5. Review contrast and semantic markup.
+6. Review dependency vulnerabilities.
+7. Verify production build output and bundle budgets.
 
 ### Core E2E scenarios
 - Open the application.
@@ -220,54 +278,69 @@ Connect the browser application to Gemini using Firebase AI Logic without a cust
 - Search and delete a conversation.
 - Simulate an API or network failure and retry.
 
-## Phase 6 — GitHub Actions and AWS deployment
+## Phase 6 — GitHub Actions CI
 
 ### Git workflow
 - `main`: production-ready code.
 - `develop`: integration branch.
 - `feature/*`: isolated feature branches.
-- Pull requests run validation before merge.
+- Pull requests run automated validation before merging.
 
 ### CI pipeline
-1. Check out the repository.
-2. Set up the supported Node.js version.
-3. Run `npm ci`.
-4. Run lint.
-5. Run unit tests.
-6. Run the Angular production build.
-7. Run E2E tests where the workflow environment supports them.
 
-### AWS deployment
-1. Create a private S3 bucket.
-2. Create a CloudFront distribution.
-3. Configure Origin Access Control so the bucket is not publicly readable.
-4. Request an ACM certificate in `us-east-1` if using a custom domain.
-5. Configure Route 53 if using an AWS-managed domain.
-6. Configure GitHub Actions OIDC federation with AWS IAM.
-7. Scope the deployment role to the required bucket and CloudFront distribution.
-8. Deploy Angular build output to S3.
-9. Invalidate CloudFront when required.
-10. Configure SPA fallback and cache headers.
-11. Verify HTTPS, routing, caching, and production behavior.
+1. Check out the repository.
+2. Set up Node.js 22.
+3. Install dependencies using `npm ci`.
+4. Run Prettier formatting validation using `npm run format:check`.
+5. Run ESLint using `npm run lint`.
+6. Run unit and integration tests using the Angular test command.
+7. Run the Angular production build using `npm run build`.
+
+### Workflow triggers
+- Push to `main`.
+- Push to `develop`.
+- Pull requests targeting `main` or `develop`.
+- Manual execution through `workflow_dispatch`.
 
 ### Acceptance criteria
-- Pull requests run automated validation.
-- Merges to `main` trigger production deployment.
+- CI executes automatically for relevant pull requests.
+- Formatting, linting, tests, and production build are validated.
+- Failed checks prevent a passing CI result.
+- No automatic source formatting or deployment happens during validation.
+
+## Phase 7 — AWS production deployment
+
+### Tasks
+1. Configure AWS IAM OIDC provider.
+2. Create a least-privilege deployment role.
+3. Create a private S3 bucket.
+4. Create a CloudFront distribution.
+5. Configure Origin Access Control.
+6. Configure SPA routing and cache policies.
+7. Configure custom domain and HTTPS if required.
+8. Create the AWS deployment workflow.
+9. Deploy Angular build output to S3.
+10. Invalidate CloudFront when required.
+11. Verify production application and Gemini integration.
+
+### Acceptance criteria
 - GitHub Actions uses OIDC rather than long-lived AWS access keys.
-- S3 is private behind CloudFront.
+- S3 remains private behind CloudFront.
 - Deep links load correctly.
-- The deployed application can reach Firebase AI Logic under the configured domain/App Check policy.
+- Production application can reach Firebase AI Logic under the configured domain and App Check policy.
+- Production deployment is independently verifiable.
 
 ## Suggested delivery sequence
 
 | Phase | Main deliverable |
 |---|---|
-| 1 | GitHub repo, Angular 22, Tailwind 4, Docker |
+| 1 | GitHub repository, Angular 22, Tailwind 4, Docker |
 | 2 | Responsive chat UI with mock responses |
 | 3 | Gemini integration and streaming |
 | 4 | Conversation persistence and advanced UX |
-| 5 | Automated tests and quality gates |
-| 6 | GitHub Actions and AWS production deployment |
+| 5 | Automated testing and quality gates |
+| 6 | GitHub Actions CI |
+| 7 | AWS production deployment |
 
 ## Development conventions
 
@@ -278,3 +351,5 @@ Connect the browser application to Gemini using Firebase AI Logic without a cust
 - Keep secrets out of source control and browser bundles.
 - Prefer small feature branches and descriptive commits.
 - Update `progress.md` whenever a task or milestone changes state.
+- Keep CI validation separate from production deployment.
+- Use automated checks to prevent regressions rather than relying exclusively on manual verification.
